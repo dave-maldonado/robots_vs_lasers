@@ -6,11 +6,16 @@ class Conveyor
     @robot_position = convert_robot_position(line_2)
     @south_lasers = convert_laser_position(line_3)
     @width = line_1.length
+    @west_range = @robot_position.downto(0)
+    @east_range = (@robot_position..@width)
   end
 
-  def robot_goes?
-    west_range, east_range = @robot_position.downto(0), (@robot_position..@width)
-    damage(west_range) <= damage(east_range) ? :west : :east
+  def least_damage_direction
+    damage(@west_range) <= damage(@east_range) ? :west : :east
+  end
+
+  def most_damage_direction
+    damage(@west_range) >= damage(@east_range) ? :west : :east
   end
 
   private
@@ -36,7 +41,7 @@ class Conveyor
         damage
       end
     end
-  end # holy ends batman
+  end
 end
 
 class Schematic
@@ -47,10 +52,11 @@ class Schematic
     make_conveyors
   end
 
-  def print_conveyor_solutions
+  # TODO: this is a crappy method name and idea, not intuitive, rethink this
+  def print_least_damage_direction
     conveyor_array.each do |conveyor|
-      puts 'GO WEST' if conveyor.robot_goes? == :west
-      puts 'GO EAST' if conveyor.robot_goes? == :east
+      puts 'GO WEST' if conveyor.least_damage_direction == :west
+      puts 'GO EAST' if conveyor.least_damage_direction == :east
     end
   end
 

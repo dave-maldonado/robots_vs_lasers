@@ -12,8 +12,12 @@ class ConveyorTest < MiniTest::Unit::TestCase
     refute @conveyor.nil?
   end
 
-  def test_correct_answer_from_robots_goes?
-    assert_equal @conveyor.robot_goes?, :west
+  def test_least_damage_direction
+    assert_equal @conveyor.least_damage_direction, :west
+  end
+
+  def test_most_damage_direction
+    assert_equal @conveyor.most_damage_direction, :east
   end
 
   def teardown
@@ -40,8 +44,8 @@ class SchematicTest < MiniTest::Unit::TestCase
     @schematic.conveyor_array.each { |conveyor| assert_kind_of Conveyor, conveyor }
   end
 
-  def test_print_conveyer_solutions
-    assert_output("GO WEST\nGO EAST\nGO WEST\n") { @schematic.print_conveyor_solutions }
+  def test_print_least_damage_direction
+    assert_output("GO WEST\nGO EAST\nGO WEST\n") { @schematic.print_least_damage_direction }
   end
 
   def teardown
