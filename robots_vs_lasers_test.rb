@@ -35,8 +35,11 @@ class SchematicTest < MiniTest::Unit::TestCase
   end
 
   def test_read_schematics
-    File.open('single-schematic.txt', 'r') do |test_file|
-      assert_equal @schematic.schematics[0], test_file.gets
+    File.open('sample-input.txt', 'r') do |test_file|
+      line_array = test_file.readlines.reject { |line| line =~ /^\s*$/ }
+      line_array.each_with_index do |line, index|
+        assert_equal @schematic.schematics[index], line
+      end
     end
   end
 
