@@ -2,12 +2,9 @@
 # practicing Ruby for Codernight
 class Conveyor
   def initialize(line_1, line_2, line_3)
-    @north_lasers = convert_laser_position(line_1)
-    @robot_position = convert_robot_position(line_2)
-    @south_lasers = convert_laser_position(line_3)
-    @width = line_1.length
-    @west_range = @robot_position.downto(0)
-    @east_range = (@robot_position..@width)
+    @north_lasers, @south_lasers = convert_laser_str(line_1), convert_laser_str(line_3)
+    @robot_position, @width = convert_robot_str(line_2), line_1.length
+    @west_range, @east_range  = @robot_position.downto(0), (@robot_position..@width)
   end
 
   def least_damage_direction
@@ -21,25 +18,21 @@ class Conveyor
   private
 
   # str --> index
-  def convert_robot_position(position_string)
+  def convert_robot_str(position_string)
     position_string.chars.index('X')
   end
 
   # str --> char arr
-  def convert_laser_position(position_string)
+  def convert_laser_str(position_string)
     position_string.chomp.chars
   end
 
   # find damage of robot over range of conveyor
   def damage(range)
     range.each.with_index.inject(0) do |damage,(n,step)|
-      if @north_lasers[n] == '|' and step.even?
-        damage + 1
-      elsif @south_lasers[n] == '|' and step.odd?
-        damage + 1
-      else
-        damage
-      end
+      if (@north_lasers[n] == '|' and step.even?) or
+         (@south_lasers[n] == '|' and step.odd?)
+      then damage + 1 else damage end
     end
   end
 end
