@@ -2,9 +2,9 @@
 # practicing Ruby for Codernight
 class Conveyor
   def initialize(line_1, line_2, line_3)
-    @north_lasers = conv_laser_str(line_1)
-    @south_lasers = conv_laser_str(line_3)
-    @robot_pos, @width = conv_robot_str(line_2), line_1.length
+    @north_lasers = convert_laser_str(line_1)
+    @south_lasers = convert_laser_str(line_3)
+    @robot_pos, @width = convert_robot_str(line_2), line_1.length
     @west_range, @east_range = @robot_pos.downto(0), (@robot_pos..@width)
   end
 
@@ -19,12 +19,12 @@ class Conveyor
   private
 
   # str --> index
-  def conv_robot_str(position_string)
+  def convert_robot_str(position_string)
     position_string.chars.index('X')
   end
 
   # str --> char arr
-  def conv_laser_str(position_string)
+  def convert_laser_str(position_string)
     position_string.chomp.chars
   end
 
