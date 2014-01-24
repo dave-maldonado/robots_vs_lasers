@@ -8,10 +8,6 @@ class ConveyorTest < MiniTest::Unit::TestCase
     @conveyor = Conveyor.new('#|#|#|##',  '---X----',  '###||###')
   end
 
-  def test_conveyor_exists
-    refute @conveyor.nil?
-  end
-
   def test_least_damage_direction
     assert_equal @conveyor.least_damage_direction, :west
   end
@@ -19,19 +15,11 @@ class ConveyorTest < MiniTest::Unit::TestCase
   def test_most_damage_direction
     assert_equal @conveyor.most_damage_direction, :east
   end
-
-  def teardown
-    @conveyor = nil
-  end
 end
 
 class SchematicTest < MiniTest::Unit::TestCase
   def setup
     @schematic = Schematic.new('sample-input.txt')
-  end
-
-  def test_schematic_exists
-    refute @schematic.nil?
   end
 
   def test_read_schematics
@@ -49,9 +37,5 @@ class SchematicTest < MiniTest::Unit::TestCase
 
   def test_print_least_damage_direction
     assert_output("GO WEST\nGO EAST\nGO WEST\n") { @schematic.print_least_damage_direction }
-  end
-
-  def teardown
-    @schematic = nil
   end
 end
