@@ -4,7 +4,7 @@ class Conveyor
   def initialize(line_1, line_2, line_3)
     @north_lasers, @south_lasers = conv_laser_str(line_1), conv_laser_str(line_3)
     @robot_position, @width = conv_robot_str(line_2), line_1.length
-    @west_range, @east_range  = @robot_position.downto(0), (@robot_position..@width)
+    @west_range, @east_range = @robot_position.downto(0), (@robot_position..@width)
   end
 
   def least_damage_direction
