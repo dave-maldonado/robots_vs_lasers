@@ -35,7 +35,7 @@ class Conveyor
         damage + 1
        else
         damage
-      end
+       end
     end
   end
 end
