@@ -2,9 +2,10 @@
 # practicing Ruby for Codernight
 class Conveyor
   def initialize(line_1, line_2, line_3)
-    @north_lasers, @south_lasers = conv_laser_str(line_1), conv_laser_str(line_3)
-    @robot_position, @width = conv_robot_str(line_2), line_1.length
-    @west_range, @east_range = @robot_position.downto(0), (@robot_position..@width)
+    @north_lasers = conv_laser_str(line_1)
+    @south_lasers = conv_laser_str(line_3)
+    @robot_pos, @width = conv_robot_str(line_2), line_1.length
+    @west_range, @east_range = @robot_pos.downto(0), (@robot_pos..@width)
   end
 
   def least_damage_direction
@@ -29,9 +30,12 @@ class Conveyor
 
   # find damage of robot over range of conveyor
   def damage(range)
-    range.each.with_index.inject(0) do |damage,(n,step)|
-      ((@north_lasers[n] == '|' and step.even?) or
-       (@south_lasers[n] == '|' and step.odd?)) ? damage + 1 : damage
+    range.each.with_index.reduce(0) do |damage, (n, step)|
+       if @north_lasers[n] == '|' && step.even? || @south_lasers[n] == '|' && step.odd?
+        damage + 1
+       else
+        damage
+      end
     end
   end
 end
@@ -56,16 +60,16 @@ class Schematic
 
   # makes string array of lines from file, rejecting blank lines
   def read_schematics(file)
-    File.open(file, 'r') do |file|
-      @schematics = file.readlines.reject { |line| line =~ /^\s*$/ }
+    File.open(file, 'r') do |f|
+      @schematics = f.readlines.reject { |line| line =~ /^\s*$/ }
     end
   end
 
   # create conveyors with each group of 3 lines as attributes
   def make_conveyors
-    (2..@schematics.length-1).step(3) do |n|
-      (@conveyor_array ||= []) << Conveyor.new(@schematics[n-2],
-                                               @schematics[n-1],
+    (2..@schematics.length - 1).step(3) do |n|
+      (@conveyor_array ||= []) << Conveyor.new(@schematics[n - 2],
+                                               @schematics[n - 1],
                                                @schematics[n])
     end
   end
